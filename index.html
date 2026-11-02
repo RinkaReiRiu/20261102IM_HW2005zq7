@@ -5,22 +5,32 @@
         <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
         <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-detector.js"></script>
         <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js"></script>
+
         <script>
-            AFRAME.registerComponent('videohandler', {
+            // 請改成你要跳轉的網址
+            const TARGET_URL = "https://youtube.com/shorts/--FcVf_XZPs?si=7EIj8pULKKuvux_z";
+
+            AFRAME.registerComponent("videohandler", {
                 init: function () {
-                    var marker = this.el;
                     this.vid = document.querySelector("#vid");
 
-                    marker.addEventListener('markerFound', function () {
-                        this.toggle = true;
+                    this.el.addEventListener("markerFound", () => {
                         this.vid.play();
-                    }.bind(this));
+                    });
 
-                    marker.addEventListener('markerLost', function () {
-                        this.toggle = false;
+                    this.el.addEventListener("markerLost", () => {
                         this.vid.pause();
-                    }.bind(this));
-                },
+                    });
+                }
+            });
+
+            // 點擊影片後跳轉網址
+            AFRAME.registerComponent("click-to-navigate", {
+                init: function () {
+                    this.el.addEventListener("click", () => {
+                        window.location.href = TARGET_URL;
+                    });
+                }
             });
         </script>
     </head>
@@ -29,7 +39,7 @@
         <a-scene
             vr-mode-ui="enabled: false"
             loading-screen="enabled: false;"
-            arjs='sourceType: webcam; debugUIEnabled: false;'
+            arjs="sourceType: webcam; debugUIEnabled: false;"
             id="scene"
             embedded
             gesture-detector
@@ -70,6 +80,7 @@
                     rotation="-90 0 0"
                     class="clickable"
                     gesture-handler
+                    click-to-navigate
                 ></a-video>
             </a-marker>
 
