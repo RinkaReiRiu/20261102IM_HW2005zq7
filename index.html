@@ -28,7 +28,7 @@
             AFRAME.registerComponent("click-to-navigate", {
                 init: function () {
                     this.el.addEventListener("click", () => {
-                        window.location.href = TARGET_URL;
+                        window.open(TARGET_URL, "_blank");
                     });
                 }
             });
